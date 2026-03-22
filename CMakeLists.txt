@@ -11,4 +11,5 @@ add_executable(mini_redis
     src/client_session.cpp
     src/command_parser.cpp
     src/store.cpp
+    src/thread_pool.cpp
 )

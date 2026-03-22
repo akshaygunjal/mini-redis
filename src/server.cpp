@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <thread>
+#include "thread_pool.hpp"
 
 void Server::start(int port) {
 
@@ -20,15 +21,16 @@ void Server::start(int port) {
     listen(server_fd, 5);
 
     std::cout << "Server listening on port " << port << "\n";
-
+    
+    ThreadPool pool(4);  // 4 worker threads
     while (true) {
 
         int client_fd = accept(server_fd, nullptr, nullptr);
 
         std::cout << "Client connected\n";
 
-        std::thread client_thread(ClientSession::handle, client_fd);
-
-        client_thread.detach();
+        pool.enqueue([client_fd]() {
+            ClientSession::handle(client_fd);
+        });
     }
 }
