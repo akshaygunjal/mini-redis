@@ -1,8 +1,9 @@
 #include "client_session.hpp"
 #include "command_parser.hpp"
-
 #include <unistd.h>
 #include <iostream>
+#include <fcntl.h>
+#include <errno.h>
 
 void ClientSession::handle(int client_fd) {
 
